@@ -5,23 +5,62 @@ const initialState = {
     loading: false,
     error: null,
     posts: [],
-    like: null
+    like: null,
+    comments: [],
+    newComment: null
 }
 
-const postReducer = (state = initialState, action) => {
+export const postReducer = (state = initialState, action) => {
 
-    switch (action.type) 
-    {
+    switch (action.type) {
+
         case actionType.CREATE_POST_REQUEST:
         case actionType.GET_ALL_POST_REQUEST:
-        case actionType.LIKE_POST_SUCCESS:
+        // case actionType.LIKE_POST_SUCCESS:
             return { ...state, error: null, loading: false };
 
-        
+        case actionType.CREATE_POST_SUCCESS:
+            return {
+                ...state,
+                post: action.payload,
+                posts: [action.payload, ...state.posts],
+                loading: false,
+                error: null
+            }
 
+        case actionType.GET_ALL_POST_SUCCESS:
+            return {
+                ...state,
+                posts: action.payload,
+                comments: action.payload.comments,
+                loading: false,
+                error: null
+            }
+
+        case actionType.LIKE_POST_SUCCESS:
+            return {
+                ...state,
+                like: action.payload,
+                posts: state.posts.map((item) => item.id === action.payload.id ? action.payload : item),
+                loading: false,
+                error: null
+            }
+
+        case actionType.CREATE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                newComment: action.payload,
+                loading: false,
+                error: null
+            }
+
+        case actionType.CREATE_POST_FAILURE:
+        case actionType.GET_ALL_POST_FAILURE:
+        case actionType.LIKE_POST_FAILURE:
+            return { ...state, error: action.payload, loading: false }
 
         default:
-            break;
+            return state;
     }
 
 }
