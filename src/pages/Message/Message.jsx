@@ -8,33 +8,51 @@ import SearchUser from "../../components/SearchUser/SearchUser";
 import UserChatCard from "./UserChatCard";
 import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllChats } from "../../Redux/Message/message.action";
+import { createMessage, getAllChats } from "../../Redux/Message/message.action";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Message = () => {
 	const dispatch = useDispatch();
-	const { message, auth } = useSelector((store) => store);
+	// const { message, auth } = useSelector((store) => store);
+	const message = useSelector(state => state.message);
+	const auth = useSelector(state => state.auth);
+
 	const [currentChat, setCurrentChat] = useState();
-	const [messages, setMessages] = useState();
+	const [messages, setMessages] = useState([]);
 	const [selectedImage, setSelectedImage] = useState();
+	const [isLoading, setIsLoading] = useState(false);
+
+
 
 	useEffect(() => {
-		dispatch(getAllChats);
+		dispatch(getAllChats());
 	}, []);
 
-	console.log("chats ----", message.chats);
+	useEffect(() => {
+		setMessages([...messages, message.message])
+	}, [message.message])
 
-	const handleSelectImage = async() => {
+	console.log("chats ----", message.chats);
+	// console.log("message ----", message.messages);
+
+	const handleSelectImage = async (e) => {
+		setIsLoading(true);
 		console.log("handle select image....");
-		// const imgUrl = await 
+		const imgUrl = await uploadToCloudinary(e.target.files[0], "image")
+		setSelectedImage(imgUrl);
+		setIsLoading(false);
 	};
 
 	const handleCreateMessage = (value) => {
 		const message = {
-			chatId: currentChat.id,
+			chatId: currentChat?.id,
 			content: value,
 			image: selectedImage,
 		};
+		dispatch(createMessage(message));
 	};
 
 	return (
@@ -97,7 +115,7 @@ const Message = () => {
 							</div>
 
 							<div className="hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 py-5">
-								<ChatMessage />
+								{messages.map((item) => <ChatMessage item={item} key={item.id} />)}
 							</div>
 
 							<div className="sticky bottom-0 border-l">
@@ -138,6 +156,12 @@ const Message = () => {
 					)}
 				</Grid>
 			</Grid>
+			<Backdrop
+				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+				open={isLoading}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 		</div>
 	);
 };

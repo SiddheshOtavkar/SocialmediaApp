@@ -16,7 +16,7 @@ export const postReducer = (state = initialState, action) => {
 
         case actionType.CREATE_POST_REQUEST:
         case actionType.GET_ALL_POST_REQUEST:
-        // case actionType.LIKE_POST_SUCCESS:
+        case actionType.LIKE_POST_REQUEST:
             return { ...state, error: null, loading: false };
 
         case actionType.CREATE_POST_SUCCESS:

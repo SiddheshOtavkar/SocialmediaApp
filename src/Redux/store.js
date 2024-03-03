@@ -6,8 +6,8 @@ import { postReducer } from "./Post/post.reducer";
 
 const rootReducers = combineReducers({
   auth: authReducer,
-  message: messageReducer,
   post: postReducer,
+  message: messageReducer,
 })
 
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk))

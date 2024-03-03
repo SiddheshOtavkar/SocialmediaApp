@@ -15,7 +15,7 @@ export const createMessage = (message) => async (dispatch) =>
 {
     dispatch({ type: CREATE_MESSAGE_REQUEST });
     try {
-        const { data } = await api.post(`/api/messages/chat`, message);
+        const { data } = await api.post(`/api/messages/chat/${message.chatId}`, message);
         console.log("created message ", data);
 
         dispatch({ type: CREATE_MESSAGE_SUCCESS, payload: data });
@@ -52,7 +52,7 @@ export const getAllChats = () => async (dispatch) =>
 {
     dispatch({ type: GET_ALL_CHATS_REQUEST });
     try {
-        const { data } = await api.get(`/api/chats`);
+        const { data } = await api.get(`/api/chats/user`);
         console.log("Get All Chats: ", data);
 
         dispatch({ type: GET_ALL_CHATS_SUCCESS, payload: data });

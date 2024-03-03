@@ -25,8 +25,12 @@ import { isLikedByReqUser } from "../../utils/isLikedByReqUser";
 
 const PostCard = ({ item }) => {
     const [showComments, setShowComments] = useState(false);
+    const [commentContent, setCommentContent] = useState("");
     const dispatch = useDispatch();
-    const { post, auth } = useSelector(store => store);
+    // const { post, auth } = useSelector(store => store);
+    const post = useSelector(state => state.post);
+    const auth = useSelector(state => state.auth);
+
 
     const handleShowComments = () => setShowComments(!showComments);
 
@@ -38,6 +42,7 @@ const PostCard = ({ item }) => {
             },
         };
         dispatch(createCommentAction(reqData));
+        setCommentContent("");
     };
 
     const handleLikePost = () => {
@@ -108,6 +113,8 @@ const PostCard = ({ item }) => {
                         <Avatar sx={{}} />
 
                         <input
+                            value={commentContent}
+                            onChange={(e) => setCommentContent(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                     handleCreateComment(e.target.value);
