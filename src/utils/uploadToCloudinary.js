@@ -1,7 +1,6 @@
 const cloud_name = process.env.REACT_APP_CLOUD_NAME;
 const upload_preset = process.env.REACT_APP_UPLOAD_PRESET;
 
-
 export const uploadToCloudinary = async (pics, fileType) => {
     try {
         if (pics && fileType) {

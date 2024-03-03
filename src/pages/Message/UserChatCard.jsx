@@ -70,9 +70,9 @@ const UserChatCard = ({ chat }) => {
           </IconButton>
         }
         title={
-          auth.user.id === chat.users[0].id
-            ? chat.users[1].firstName + " " + chat.users[1].lastName
-            : chat.users[0].firstName + " " + chat.users[0].lastName
+          auth.user?.id === chat.users[0]?.id
+            ? chat.users[1]?.firstName + " " + chat.users[1]?.lastName
+            : chat.users[0]?.firstName + " " + chat.users[0]?.lastName
         }
         titleTypographyProps={{ fontSize: "1.2rem", fontWeight: 600 }}
         subheader={"new message"}

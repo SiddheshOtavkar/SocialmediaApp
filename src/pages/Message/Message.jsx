@@ -25,8 +25,6 @@ const Message = () => {
 	const [selectedImage, setSelectedImage] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
-
-
 	useEffect(() => {
 		dispatch(getAllChats());
 	}, []);
@@ -97,9 +95,9 @@ const Message = () => {
 								<div className="flex items-center space-x-3">
 									<Avatar src="https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=600" />
 									<p>{
-										auth.user.id === currentChat.users[0].id
-											? currentChat.users[1].firstName + " " + currentChat.users[1].lastName
-											: currentChat.users[0].firstName + " " + currentChat.users[0].lastName
+										auth.user?.id === currentChat.users[0]?.id
+											? currentChat.users[1]?.firstName + " " + currentChat.users[1]?.lastName
+											: currentChat.users[0]?.firstName + " " + currentChat.users[0]?.lastName
 									}</p>
 								</div>
 
@@ -119,11 +117,16 @@ const Message = () => {
 							</div>
 
 							<div className="sticky bottom-0 border-l">
+
+								{selectedImage && <img className="w-[5rem] h-[5rem] object-cover px-2" src={selectedImage} alt="" />}
+
 								<div className="py-5 flex items-center justify-center space-x-5">
+
 									<input
 										onKeyDown={(e) => {
 											if (e.key === "Enter" && e.target.value) {
 												handleCreateMessage(e.target.value)
+												setSelectedImage("")
 											}
 										}}
 										className="bg-transparent border border-[#3b40544] rounded-full w-[90%] py-3 px-5"

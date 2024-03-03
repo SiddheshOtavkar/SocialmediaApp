@@ -20,7 +20,7 @@ const ChatMessage = ({ item }) => {
                     <img
                         className="w-[12rem] h-[17rem] object-cover rounded-md"
                         alt=""
-                        src="https://images.pexels.com/photos/112811/pexels-photo-112811.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        src={item.image}
                     />
                 )}
                 <p className={`${true ? "py-2" : "py-1"}`}>{item.content}</p>
